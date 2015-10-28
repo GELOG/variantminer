@@ -18,12 +18,6 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!-- BEGIN: Java/Scala compilation memory settings -->
-        <PermGen>64m</PermGen>
-        <MaxPermGen>512m</MaxPermGen>
-        <CodeCacheSize>512m</CodeCacheSize>
-        <!-- END: Java/Scala compilation memory settings -->
     </properties>
 
 
@@ -42,32 +36,13 @@
 
 
     <build>
-
-        <sourceDirectory>src/main/scala</sourceDirectory>
-
         <plugins>
-            <!-- maven-compiler-plugin: Compiles the project's Java sources. -->
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
-                    <maxmem>1024m</maxmem>
-                    <compilerArgs>
-                        <arg>-Xlint:all</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            -->
-
+            <!-- maven-assembly-plugin: Aggregate the project output along with its dependencies, modules,
+                                        site documentation, and other files into a single distributable archive. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version><!-- NOW at 2.6 -->
+                <version>2.4</version>
                 <configuration>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -93,32 +68,17 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <!--
-                <version>3.2.2</version>  Spark version -->
-                <version>3.1.3</version><!-- adam-ibs version -->
+                <version>3.2.2</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>compile</goal>
                             <goal>testCompile</goal>
                         </goals>
-
-                        <!-- added by Adam IBS
-                        <configuration>
-                            <args>
-                                <arg>-make:transitive</arg>
-                                <arg>-dependencyfile</arg>
-                                <arg>${project.build.directory}/.scala_dependencies</arg>
-                            </args>
-                        </configuration>
-                        -->
                     </execution>
                 </executions>
                 <configuration>
                     <scalaVersion>${scala.version}</scalaVersion>
-                    <!--
-                    <scalaCompatVersion>${scala.version}</scalaCompatVersion>
-                    -->
                     <args>
                         <arg>-unchecked</arg>
                         <arg>-deprecation</arg>
@@ -128,11 +88,6 @@
                     <jvmArgs>
                         <jvmArg>-Xms1024m</jvmArg>
                         <jvmArg>-Xmx1024m</jvmArg>
-                        <!--  support was removed in 8.0
-                        <jvmArg>-XX:PermSize=${PermGen}</jvmArg>
-                        <jvmArg>-XX:MaxPermSize=${MaxPermGen}</jvmArg>
-                        -->
-                        <jvmArg>-XX:ReservedCodeCacheSize=${CodeCacheSize}</jvmArg>
                     </jvmArgs>
                     <javacArgs>
                         <javacArg>-source</javacArg>
@@ -143,22 +98,6 @@
                     </javacArgs>
                 </configuration>
             </plugin>
-
-            <!-- maven-jar-plugin: Builds a JAR file from the compiled project classes and resources. - ->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>HelloScala</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            -->
 
         </plugins>
     </build>
