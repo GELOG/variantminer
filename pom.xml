@@ -15,6 +15,7 @@
         <maven.version>3.3.3</maven.version>
         <scala.binary.version>2.10</scala.binary.version>
         <scala.version>2.10.4</scala.version>
+        <spark.version>1.5.1</spark.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -31,6 +32,22 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <!--
+            <exclusions>
+                <exclusion>
+                    <!- - make sure wrong scala version is not pulled in - ->
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-library</artifactId>
+                </exclusion>
+            </exclusions>
+            -->
+
         </dependency>
     </dependencies>
 
@@ -50,7 +67,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>HelloScala</mainClass>
+                            <mainClass>HelloSpark</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
